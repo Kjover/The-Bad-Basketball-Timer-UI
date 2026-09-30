@@ -1,303 +1,172 @@
-
 <!DOCTYPE html>
 <html>
 
 <head>
-
     <title>Horrible Basketball Timer</title>
 
-    <!-- Inter font -->
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet"
     >
 
-
     <style>
-
         * {
             box-sizing: border-box;
         }
 
-
-        html,
-        body {
+        html, body {
             margin: 0;
             width: 100%;
             height: 100%;
         }
 
-
         body {
-
             font-family: "Inter", Arial, sans-serif;
-
             background-image: url("background.png");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-
             overflow: hidden;
         }
 
-
-        /* FOREGROUND */
-
         #app {
-
             position: relative;
-
             width: 100vw;
             height: 100vh;
-
             z-index: 100;
-
             transition: transform 0.04s linear;
         }
 
-
-        /* TITLE */
-
         #title {
-
             position: absolute;
-
             top: 10px;
             left: 50%;
-
             transform: translateX(-50%);
-
             margin: 0;
-
             font-size: 48px;
             font-weight: 900;
-
             color: white;
-
-            text-shadow:
-                4px 4px 0 black,
-                -2px -2px 0 black;
-
+            text-shadow: 4px 4px 0 black, -2px -2px 0 black;
             white-space: nowrap;
-
             z-index: 500;
         }
 
-
-        /* TIMER SETUP */
-
         #setup {
-
             position: absolute;
-
             top: 180px;
             left: 50%;
-
             transform: translateX(-50%);
-
             text-align: center;
-
             z-index: 400;
         }
 
-
         #setupText {
-
             margin-bottom: 14px;
-
             color: white;
-
             font-size: 22px;
             font-weight: 800;
-
             text-shadow: 2px 2px 4px black;
         }
 
-
         #timeInput {
-
             width: 145px;
-
             padding: 11px;
-
             font-family: "Inter", Arial, sans-serif;
-
             font-size: 19px;
             font-weight: 500;
-
             text-align: center;
         }
 
-
         #setButton {
-
             padding: 11px 20px;
-
             margin-left: 8px;
-
             font-family: "Inter", Arial, sans-serif;
-
             font-size: 18px;
             font-weight: 800;
-
             cursor: pointer;
         }
 
-
         #inputError {
-
             min-height: 28px;
-
             margin-top: 8px;
-
             color: red;
-
             font-size: 17px;
             font-weight: 800;
-
             text-shadow: 1px 1px 3px black;
         }
 
-
-        /* TIMER */
-
         #timerBox {
-
             position: absolute;
-
             left: 17%;
             top: 430px;
-
             width: 350px;
-
             text-align: center;
-
             color: white;
-
             text-shadow: 3px 3px 5px black;
-
             z-index: 300;
         }
 
-
         #timerLabel {
-
             font-size: 28px;
             font-weight: 800;
         }
 
-
         #timer {
-
             margin: 5px 0;
-
             font-size: 90px;
             font-weight: 900;
         }
 
-
         #secondsLabel {
-
             font-size: 20px;
             font-weight: 700;
         }
 
-
         #speedDisplay {
-
             margin-top: 15px;
-
             font-size: 18px;
             font-weight: 700;
         }
 
-
-        /* GAME */
-
         #game {
-
             position: absolute;
-
             left: 57%;
             top: 340px;
-
             width: 420px;
-
             text-align: center;
-
             color: white;
-
             text-shadow: 2px 2px 4px black;
-
             z-index: 300;
         }
 
-
-        /* BALL */
-
         #ball {
-
             display: block;
-
             width: max-content;
-
             margin: 0 auto 10px auto;
-
             font-size: 95px;
-
             user-select: none;
-
             transform: translate(0, 0);
-
-            transition:
-                font-size 0.1s,
-                transform 0.35s cubic-bezier(.2,.8,.2,1);
+            transition: font-size 0.1s, transform 0.35s cubic-bezier(.2,.8,.2,1);
         }
-
 
         #ball.jump {
-
-            transform:
-                translate(0, 150px)
-                rotate(360deg);
+            transform: translate(0, 150px) rotate(360deg);
         }
-
 
         #ball.hit {
-
-            transform:
-                translate(0, 150px)
-                scale(1.15)
-                rotate(720deg);
+            transform: translate(0, 150px) scale(1.15) rotate(720deg);
         }
-
-
-        /* EXPLOSION */
 
         #explosion {
-
             display: none;
-
             font-size: 130px;
-
-            animation:
-                explode 0.3s infinite alternate;
+            animation: explode 0.3s infinite alternate;
         }
 
-
         @keyframes explode {
-
             from {
                 transform: scale(1);
             }
@@ -305,269 +174,154 @@
             to {
                 transform: scale(1.45);
             }
-
         }
 
-
-        /* PSI */
-
         #pressure {
-
             font-size: 32px;
             font-weight: 800;
         }
 
-
         #bar {
-
             width: 320px;
             height: 35px;
-
             margin: 12px auto;
-
             border: 4px solid white;
-
             background: rgba(0, 0, 0, 0.75);
-
             overflow: hidden;
         }
 
-
         #barFill {
-
             width: 0%;
             height: 100%;
-
             background: green;
-
-            transition:
-                width 0.1s,
-                background 0.2s;
+            transition: width 0.1s, background 0.2s;
         }
-
-
-        /* PUMP BUTTON */
 
         #pumpButton {
-
             padding: 15px 45px;
-
             margin-top: 10px;
-
             font-family: "Inter", Arial, sans-serif;
-
             font-size: 28px;
             font-weight: 900;
-
             cursor: pointer;
-
             border: 4px solid black;
-
-            transition:
-                transform 0.1s,
-                background 0.1s;
+            transition: transform 0.1s, background 0.1s;
         }
 
-
         #pumpButton:active {
-
             transform: scale(0.9);
         }
 
-
         #pumpButton.hit {
-
-            animation:
-                buttonHit 0.35s;
+            animation: buttonHit 0.35s;
         }
 
-
         @keyframes buttonHit {
-
             0% {
                 transform: scale(1);
             }
 
             35% {
-                transform:
-                    scale(1.25)
-                    rotate(-5deg);
+                transform: scale(1.25) rotate(-5deg);
             }
 
             65% {
-                transform:
-                    scale(0.85)
-                    rotate(5deg);
+                transform: scale(0.85) rotate(5deg);
             }
 
             100% {
-                transform:
-                    scale(1);
+                transform: scale(1);
             }
-
         }
 
-
-        /* TEXT */
-
         #warning {
-
             min-height: 35px;
-
             font-size: 20px;
             font-weight: 800;
         }
 
-
         #instruction {
-
             font-size: 18px;
             font-weight: 700;
         }
 
-
-        /* RESTART */
-
         #restartButton {
-
             position: absolute;
-
             right: 30px;
             bottom: 25px;
-
             padding: 12px 22px;
-
             font-family: "Inter", Arial, sans-serif;
-
             font-size: 18px;
             font-weight: 800;
-
             cursor: pointer;
-
             z-index: 500;
         }
 
-
-        /* POPUPS */
-
         #popupLayer {
-
             position: fixed;
-
             inset: 0;
-
             pointer-events: none;
-
             z-index: 1000;
         }
 
-
         .popup {
-
             position: absolute;
-
             width: 330px;
-
             padding: 20px;
-
             background: white;
-
             color: black;
-
             border: 5px solid black;
-
-            box-shadow:
-                8px 8px 0 black;
-
+            box-shadow: 8px 8px 0 black;
             pointer-events: auto;
-
             font-family: "Inter", Arial, sans-serif;
-
-            animation:
-                popupAppear 0.15s ease-out;
+            animation: popupAppear 0.15s ease-out;
         }
 
-
         .popup h2 {
-
             margin: 0 0 10px 0;
-
             font-size: 21px;
             font-weight: 900;
         }
 
-
         .popup p {
-
             margin: 0 0 15px 0;
-
             font-size: 15px;
-
             line-height: 1.4;
         }
 
-
         .popup button {
-
             padding: 8px 14px;
-
             font-family: "Inter", Arial, sans-serif;
-
             font-size: 14px;
             font-weight: 800;
-
             cursor: pointer;
         }
 
-
         @keyframes popupAppear {
-
             from {
-
-                transform:
-                    scale(0.7)
-                    rotate(-5deg);
-
+                transform: scale(0.7) rotate(-5deg);
                 opacity: 0;
             }
 
             to {
-
-                transform:
-                    scale(1)
-                    rotate(0deg);
-
+                transform: scale(1) rotate(0deg);
                 opacity: 1;
             }
-
         }
-
-
-        /* SCREEN SHAKE */
 
         .shake1 {
-
-            animation:
-                shake1 0.35s;
+            animation: shake1 0.35s;
         }
-
 
         .shake2 {
-
-            animation:
-                shake2 0.45s;
+            animation: shake2 0.45s;
         }
-
 
         .shake3 {
-
-            animation:
-                shake3 0.55s;
+            animation: shake3 0.55s;
         }
 
-
         @keyframes shake1 {
-
             0% {
                 transform: translate(0, 0);
             }
@@ -595,333 +349,158 @@
             100% {
                 transform: translate(0, 0);
             }
-
         }
 
-
         @keyframes shake2 {
-
             0% {
-                transform:
-                    translate(0, 0)
-                    rotate(0);
+                transform: translate(0, 0) rotate(0);
             }
 
             15% {
-                transform:
-                    translate(-12px, 8px)
-                    rotate(-0.5deg);
+                transform: translate(-12px, 8px) rotate(-0.5deg);
             }
 
             30% {
-                transform:
-                    translate(14px, -10px)
-                    rotate(0.5deg);
+                transform: translate(14px, -10px) rotate(0.5deg);
             }
 
             45% {
-                transform:
-                    translate(-10px, -8px)
-                    rotate(-0.4deg);
+                transform: translate(-10px, -8px) rotate(-0.4deg);
             }
 
             60% {
-                transform:
-                    translate(9px, 9px)
-                    rotate(0.4deg);
+                transform: translate(9px, 9px) rotate(0.4deg);
             }
 
             75% {
-                transform:
-                    translate(-7px, -6px);
+                transform: translate(-7px, -6px);
             }
 
             100% {
-                transform:
-                    translate(0, 0)
-                    rotate(0);
+                transform: translate(0, 0) rotate(0);
             }
-
         }
 
-
         @keyframes shake3 {
-
             0% {
-                transform:
-                    translate(0, 0)
-                    rotate(0);
+                transform: translate(0, 0) rotate(0);
             }
 
             10% {
-                transform:
-                    translate(-18px, 12px)
-                    rotate(-1deg);
+                transform: translate(-18px, 12px) rotate(-1deg);
             }
 
             20% {
-                transform:
-                    translate(17px, -13px)
-                    rotate(1deg);
+                transform: translate(17px, -13px) rotate(1deg);
             }
 
             30% {
-                transform:
-                    translate(-15px, -10px)
-                    rotate(-1deg);
+                transform: translate(-15px, -10px) rotate(-1deg);
             }
 
             40% {
-                transform:
-                    translate(13px, 11px)
-                    rotate(1deg);
+                transform: translate(13px, 11px) rotate(1deg);
             }
 
             50% {
-                transform:
-                    translate(-11px, -9px);
+                transform: translate(-11px, -9px);
             }
 
             60% {
-                transform:
-                    translate(10px, 8px);
+                transform: translate(10px, 8px);
             }
 
             70% {
-                transform:
-                    translate(-7px, -6px);
+                transform: translate(-7px, -6px);
             }
 
             80% {
-                transform:
-                    translate(5px, 5px);
+                transform: translate(5px, 5px);
             }
 
             100% {
-                transform:
-                    translate(0, 0)
-                    rotate(0);
+                transform: translate(0, 0) rotate(0);
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
     <div id="app">
 
-
-        <!-- TITLE -->
-
-        <h1 id="title">
-            HORRIBLE BASKETBALL TIMER
-        </h1>
-
-
-        <!-- SETUP -->
+        <h1 id="title">HORRIBLE BASKETBALL TIMER</h1>
 
         <div id="setup">
+            <div id="setupText">ENTER TIMER LENGTH</div>
 
-            <div id="setupText">
-                ENTER TIMER LENGTH
-            </div>
+            <input id="timeInput" type="text" value="Seconds">
 
-
-            <input
-                id="timeInput"
-                type="text"
-                value="Seconds"
-            >
-
-
-            <button id="setButton">
-                SET TIMER
-            </button>
-
+            <button id="setButton">SET TIMER</button>
 
             <div id="inputError"></div>
-
         </div>
-
-
-        <!-- TIMER -->
 
         <div id="timerBox">
-
-            <div id="timerLabel">
-                TIMER
-            </div>
-
-
-            <div id="timer">
-                0.0
-            </div>
-
-
-            <div id="secondsLabel">
-                SECONDS REMAINING
-            </div>
-
-
-            <div id="speedDisplay">
-                TIMER SPEED: 0.0x
-            </div>
-
+            <div id="timerLabel">TIMER</div>
+            <div id="timer">0.0</div>
+            <div id="secondsLabel">SECONDS REMAINING</div>
+            <div id="speedDisplay">TIMER SPEED: 0.0x</div>
         </div>
-
-
-        <!-- GAME -->
 
         <div id="game">
 
+            <div id="ball">🏀</div>
 
-            <div id="ball">
-                🏀
-            </div>
+            <div id="explosion">💥</div>
 
-
-            <div id="explosion">
-                💥
-            </div>
-
-
-            <div id="pressure">
-                PSI: 0
-            </div>
-
+            <div id="pressure">PSI: 0</div>
 
             <div id="bar">
-
                 <div id="barFill"></div>
-
             </div>
 
-
-            <button id="pumpButton">
-                PUMP
-            </button>
-
+            <button id="pumpButton">PUMP</button>
 
             <div id="warning"></div>
-
-
-            <div id="instruction">
-                SET A TIMER TO BEGIN
-            </div>
-
-
+            <div id="instruction">SET A TIMER TO BEGIN</div>
         </div>
 
-
-        <!-- RESTART -->
-
-        <button id="restartButton">
-            RESTART
-        </button>
-
-
+        <button id="restartButton">RESTART</button>
     </div>
-
-
-    <!-- POPUPS -->
 
     <div id="popupLayer"></div>
 
-
     <script>
-
-
-        /* =========================
-           VARIABLES
-        ========================= */
-
         let pressure = 0;
-
         let time = 0;
-
         let running = false;
-
         let exploded = false;
-
         let jumpInProgress = false;
-
         let popupCount = 0;
-
         let pressure67Triggered = false;
 
+        const app = document.getElementById("app");
+        const timer = document.getElementById("timer");
+        const pressureText = document.getElementById("pressure");
+        const barFill = document.getElementById("barFill");
+        const ball = document.getElementById("ball");
+        const explosion = document.getElementById("explosion");
+        const warning = document.getElementById("warning");
+        const instruction = document.getElementById("instruction");
+        const speedDisplay = document.getElementById("speedDisplay");
+        const timeInput = document.getElementById("timeInput");
+        const inputError = document.getElementById("inputError");
+        const pumpButton = document.getElementById("pumpButton");
+        const popupLayer = document.getElementById("popupLayer");
 
-        /* =========================
-           ELEMENTS
-        ========================= */
-
-        const app =
-            document.getElementById("app");
-
-        const timer =
-            document.getElementById("timer");
-
-        const pressureText =
-            document.getElementById("pressure");
-
-        const barFill =
-            document.getElementById("barFill");
-
-        const ball =
-            document.getElementById("ball");
-
-        const explosion =
-            document.getElementById("explosion");
-
-        const warning =
-            document.getElementById("warning");
-
-        const instruction =
-            document.getElementById("instruction");
-
-        const speedDisplay =
-            document.getElementById("speedDisplay");
-
-        const timeInput =
-            document.getElementById("timeInput");
-
-        const inputError =
-            document.getElementById("inputError");
-
-        const pumpButton =
-            document.getElementById("pumpButton");
-
-        const popupLayer =
-            document.getElementById("popupLayer");
-
-
-      
-
-        document
-            .getElementById("setButton")
-            .addEventListener(
-                "click",
-                startTimer
-            );
-
+        document.getElementById("setButton").addEventListener("click", startTimer);
 
         function startTimer() {
-
-
-            const inputText =
-                timeInput.value.trim();
-
-
-            /* MUST DELETE SECONDS */
+            const inputText = timeInput.value.trim();
 
             if (inputText === "Seconds") {
-
-                inputError.textContent =
-                    'ERROR: DELETE THE WORD "SECONDS" FIRST.';
+                inputError.textContent = 'ERROR: DELETE THE WORD "SECONDS" FIRST.';
 
                 showPopup(
                     "INPUT ERROR",
@@ -931,13 +510,8 @@
                 return;
             }
 
-
-            /* NUMBERS ONLY */
-
             if (!/^\d+(\.\d+)?$/.test(inputText)) {
-
-                inputError.textContent =
-                    "ERROR: ENTER A NUMBER.";
+                inputError.textContent = "ERROR: ENTER A NUMBER.";
 
                 showPopup(
                     "BAD INPUT",
@@ -947,776 +521,282 @@
                 return;
             }
 
-
-            const input =
-                Number(inputText);
-
+            const input = Number(inputText);
 
             if (input <= 0) {
-
-                inputError.textContent =
-                    "ERROR: ENTER A NUMBER GREATER THAN 0.";
-
+                inputError.textContent = "ERROR: ENTER A NUMBER GREATER THAN 0.";
                 return;
             }
 
-
-            /* RESET GAME STATE */
-
             inputError.textContent = "";
-
             time = input;
-
             pressure = 0;
-
             running = true;
-
             exploded = false;
-
             pressure67Triggered = false;
 
+            timer.textContent = time.toFixed(1);
+            pressureText.textContent = "PSI: 0";
+            barFill.style.width = "0%";
+            barFill.style.background = "green";
 
-            /* RESET DISPLAY */
+            ball.style.display = "block";
+            ball.style.fontSize = "95px";
+            ball.classList.remove("jump");
+            ball.classList.remove("hit");
 
-            timer.textContent =
-                time.toFixed(1);
-
-            pressureText.textContent =
-                "PSI: 0";
-
-            barFill.style.width =
-                "0%";
-
-            barFill.style.background =
-                "green";
-
-            ball.style.display =
-                "block";
-
-            ball.style.fontSize =
-                "95px";
-
-            ball.classList.remove(
-                "jump"
-            );
-
-            ball.classList.remove(
-                "hit"
-            );
-
-            explosion.style.display =
-                "none";
-
-            warning.textContent =
-                "";
-
-            instruction.textContent =
-                "PRESS SPACE OR PUMP";
-
-            speedDisplay.textContent =
-                "TIMER SPEED: 5.0x";
-
+            explosion.style.display = "none";
+            warning.textContent = "";
+            instruction.textContent = "PRESS SPACE OR PUMP";
+            speedDisplay.textContent = "TIMER SPEED: 5.0x";
 
             updateAll();
 
-
-            /* SPECIAL 67 TIMER POPUP */
-
             if (input === 67) {
-
-                showPopup(
-                    "67",
-                    "67"
-                );
-
+                showPopup("67", "67");
             }
-
         }
 
-
-        /* =========================
-           PUMP
-        ========================= */
-
         function pump() {
-
             if (!running || exploded) {
                 return;
             }
 
-
             pressure += 10;
 
-
             if (pressure > 100) {
-
                 explode();
-
                 return;
             }
-
 
             updateAll();
-
         }
 
-
-        /* =========================
-           SPACE BAR
-        ========================= */
-
-        document.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (event.code === "Space") {
-
-                    event.preventDefault();
-
-                    pump();
-
-                }
-
+        document.addEventListener("keydown", function(event) {
+            if (event.code === "Space") {
+                event.preventDefault();
+                pump();
             }
-        );
+        });
 
+        pumpButton.addEventListener("click", pump);
 
-        /* =========================
-           PUMP BUTTON
-        ========================= */
+        document.getElementById("restartButton").addEventListener("click", function() {
+            timeInput.value = "Seconds";
+            time = 0;
+            pressure = 0;
+            running = false;
+            exploded = false;
+            jumpInProgress = false;
+            pressure67Triggered = false;
 
-        pumpButton.addEventListener(
-            "click",
-            pump
-        );
+            timer.textContent = "0.0";
+            pressureText.textContent = "PSI: 0";
+            barFill.style.width = "0%";
+            barFill.style.background = "green";
 
+            ball.style.display = "block";
+            ball.style.fontSize = "95px";
+            ball.classList.remove("jump");
+            ball.classList.remove("hit");
 
-        /* =========================
-           RESTART
-        ========================= */
-
-        document
-            .getElementById("restartButton")
-            .addEventListener(
-                "click",
-                function() {
-
-                    timeInput.value =
-                        "Seconds";
-
-                    time = 0;
-
-                    pressure = 0;
-
-                    running = false;
-
-                    exploded = false;
-
-                    jumpInProgress = false;
-
-                    pressure67Triggered = false;
-
-
-                    timer.textContent =
-                        "0.0";
-
-                    pressureText.textContent =
-                        "PSI: 0";
-
-                    barFill.style.width =
-                        "0%";
-
-                    barFill.style.background =
-                        "green";
-
-                    ball.style.display =
-                        "block";
-
-                    ball.style.fontSize =
-                        "95px";
-
-                    ball.classList.remove(
-                        "jump"
-                    );
-
-                    ball.classList.remove(
-                        "hit"
-                    );
-
-                    explosion.style.display =
-                        "none";
-
-                    warning.textContent =
-                        "";
-
-                    instruction.textContent =
-                        "SET A TIMER TO BEGIN";
-
-                    speedDisplay.textContent =
-                        "TIMER SPEED: 0.0x";
-
-                    inputError.textContent =
-                        "";
-
-                }
-            );
-
-
-        /* =========================
-           UPDATE DISPLAY
-        ========================= */
+            explosion.style.display = "none";
+            warning.textContent = "";
+            instruction.textContent = "SET A TIMER TO BEGIN";
+            speedDisplay.textContent = "TIMER SPEED: 0.0x";
+            inputError.textContent = "";
+        });
 
         function updateAll() {
+            pressureText.textContent = "PSI: " + pressure;
 
+            ball.style.fontSize = (80 + pressure) + "px";
 
-            pressureText.textContent =
-                "PSI: " + pressure;
+            const visualPressure = Math.min(pressure, 100);
 
+            barFill.style.width = visualPressure + "%";
 
-            /* BALL SIZE */
-
-            ball.style.fontSize =
-                (80 + pressure) + "px";
-
-
-            /* BAR */
-
-            const visualPressure =
-                Math.min(
-                    pressure,
-                    100
-                );
-
-
-            barFill.style.width =
-                visualPressure + "%";
-
-
-            /* 67 PSI POPUP */
-
-            if (
-                pressure >= 67 &&
-                !pressure67Triggered
-            ) {
-
+            if (pressure >= 67 && !pressure67Triggered) {
                 pressure67Triggered = true;
-
-                showPopup(
-                    "67",
-                    "67"
-                );
-
+                showPopup("67", "67");
             }
-
-
-            /* BAR COLOUR */
 
             if (pressure < 50) {
-
-                barFill.style.background =
-                    "green";
-
+                barFill.style.background = "green";
+            } else if (pressure < 75) {
+                barFill.style.background = "yellow";
+            } else if (pressure < 90) {
+                barFill.style.background = "orange";
+            } else {
+                barFill.style.background = "red";
             }
 
-            else if (pressure < 75) {
-
-                barFill.style.background =
-                    "yellow";
-
-            }
-
-            else if (pressure < 90) {
-
-                barFill.style.background =
-                    "orange";
-
-            }
-
-            else {
-
-                barFill.style.background =
-                    "red";
-
-            }
-
-
-            /* TIMER SPEED */
-
-            const drainRate =
-                5 - (pressure / 100) * 4.8;
-
+            const drainRate = 5 - (pressure / 100) * 4.8;
 
             speedDisplay.textContent =
-                "TIMER SPEED: " +
-                drainRate.toFixed(1) +
-                "x";
-
-
-            /* WARNING */
+                "TIMER SPEED: " + drainRate.toFixed(1) + "x";
 
             if (pressure >= 90) {
-
-                warning.textContent =
-                    "PRESSURE TOO HIGH";
-
+                warning.textContent = "PRESSURE TOO HIGH";
+            } else if (pressure >= 75) {
+                warning.textContent = "HIGH PRESSURE";
+            } else {
+                warning.textContent = "";
             }
-
-            else if (pressure >= 75) {
-
-                warning.textContent =
-                    "HIGH PRESSURE";
-
-            }
-
-            else {
-
-                warning.textContent =
-                    "";
-
-            }
-
         }
-
-
-        /* =========================
-           EXPLOSION
-        ========================= */
 
         function explode() {
-
             exploded = true;
-
             running = false;
 
+            ball.style.display = "none";
+            explosion.style.display = "block";
 
-            ball.style.display =
-                "none";
+            warning.textContent = "BALL EXPLODED";
+            instruction.textContent = "TIMER STOPPED";
 
-
-            explosion.style.display =
-                "block";
-
-
-            warning.textContent =
-                "BALL EXPLODED";
-
-
-            instruction.textContent =
-                "TIMER STOPPED";
-
-
-            shakeScreen(
-                "shake3"
-            );
-
+            shakeScreen("shake3");
         }
 
-
-        /* =========================
-           NATURAL DEFLATION
-        ========================= */
-
-        setInterval(
-            function() {
-
-                if (!running || exploded) {
-                    return;
-                }
-
-
-                pressure =
-                    Math.max(
-                        0,
-                        pressure - 2
-                    );
-
-
-                updateAll();
-
-            },
-            200
-        );
-
-
-        /* =========================
-           TIMER
-        ========================= */
-
-        setInterval(
-            function() {
-
-                if (!running || exploded) {
-                    return;
-                }
-
-
-                const drainRate =
-                    5 - (pressure / 100) * 4.8;
-
-
-                time =
-                    Math.max(
-                        0,
-                        time -
-                        (0.1 * drainRate)
-                    );
-
-
-                timer.textContent =
-                    time.toFixed(1);
-
-
-                if (time <= 0) {
-
-                    time = 0;
-
-                    running = false;
-
-
-                    instruction.textContent =
-                        "TIMER FINISHED";
-
-                }
-
-            },
-            100
-        );
-
-
-        /* =========================
-           RANDOM BALL JUMP
-        ========================= */
-
-        function randomBallJump() {
-
-            if (
-                !running ||
-                exploded ||
-                jumpInProgress
-            ) {
-
+        setInterval(function() {
+            if (!running || exploded) {
                 return;
-
             }
 
+            pressure = Math.max(0, pressure - 2);
+            updateAll();
+        }, 200);
+
+        setInterval(function() {
+            if (!running || exploded) {
+                return;
+            }
+
+            const drainRate = 5 - (pressure / 100) * 4.8;
+
+            time = Math.max(0, time - (0.1 * drainRate));
+            timer.textContent = time.toFixed(1);
+
+            if (time <= 0) {
+                time = 0;
+                running = false;
+                instruction.textContent = "TIMER FINISHED";
+            }
+        }, 100);
+
+        function randomBallJump() {
+            if (!running || exploded || jumpInProgress) {
+                return;
+            }
 
             jumpInProgress = true;
+            ball.classList.add("jump");
 
+            shakeScreen("shake1");
 
-            /* BALL JUMPS */
+            setTimeout(function() {
+                ball.classList.remove("jump");
+                ball.classList.add("hit");
 
-            ball.classList.add(
-                "jump"
-            );
+                pump();
 
+                pumpButton.classList.add("hit");
+                shakeScreen("shake3");
 
-            shakeScreen(
-                "shake1"
-            );
-
-
-            setTimeout(
-                function() {
-
-
-                    ball.classList.remove(
-                        "jump"
-                    );
-
-
-                    ball.classList.add(
-                        "hit"
-                    );
-
-
-                    /* HITS PUMP BUTTON */
-
-                    pump();
-
-
-                    pumpButton.classList.add(
-                        "hit"
-                    );
-
-
-                    shakeScreen(
-                        "shake3"
-                    );
-
-
-                    setTimeout(
-                        function() {
-
-                            ball.classList.remove(
-                                "hit"
-                            );
-
-                            pumpButton.classList.remove(
-                                "hit"
-                            );
-
-                            jumpInProgress = false;
-
-                        },
-                        350
-                    );
-
-
-                },
-                350
-            );
-
+                setTimeout(function() {
+                    ball.classList.remove("hit");
+                    pumpButton.classList.remove("hit");
+                    jumpInProgress = false;
+                }, 350);
+            }, 350);
         }
-
-
-        /* =========================
-           RANDOM JUMP SCHEDULER
-        ========================= */
 
         function scheduleBallJump() {
+            const delay = Math.random() * 5000 + 4000;
 
-            const delay =
-                Math.random() * 5000 + 4000;
-
-
-            setTimeout(
-                function() {
-
-                    randomBallJump();
-
-                    scheduleBallJump();
-
-                },
-                delay
-            );
-
+            setTimeout(function() {
+                randomBallJump();
+                scheduleBallJump();
+            }, delay);
         }
-
 
         scheduleBallJump();
 
-
-        /* =========================
-           SCREEN SHAKE
-        ========================= */
-
-        function shakeScreen(
-            className
-        ) {
-
-
-            app.classList.remove(
-                "shake1",
-                "shake2",
-                "shake3"
-            );
-
+        function shakeScreen(className) {
+            app.classList.remove("shake1", "shake2", "shake3");
 
             void app.offsetWidth;
 
+            app.classList.add(className);
 
-            app.classList.add(
-                className
-            );
-
-
-            setTimeout(
-                function() {
-
-                    app.classList.remove(
-                        className
-                    );
-
-                },
-                600
-            );
-
+            setTimeout(function() {
+                app.classList.remove(className);
+            }, 600);
         }
 
-
-        /* =========================
-           POPUP CREATOR
-        ========================= */
-
-        function showPopup(
-            title,
-            message
-        ) {
-
-
+        function showPopup(title, message) {
             popupCount++;
 
+            const popup = document.createElement("div");
 
-            const popup =
-                document.createElement(
-                    "div"
-                );
+            popup.className = "popup";
 
-
-            popup.className =
-                "popup";
-
-
-            /* RANDOM POSITION */
-
-            const maxX =
-                Math.max(
-                    20,
-                    window.innerWidth - 350
-                );
-
-
-            const maxY =
-                Math.max(
-                    80,
-                    window.innerHeight - 220
-                );
-
+            const maxX = Math.max(20, window.innerWidth - 350);
+            const maxY = Math.max(80, window.innerHeight - 220);
 
             popup.style.left =
-                Math.max(
-                    20,
-                    Math.random() * maxX
-                ) + "px";
-
+                Math.max(20, Math.random() * maxX) + "px";
 
             popup.style.top =
-                Math.max(
-                    80,
-                    Math.random() * maxY
-                ) + "px";
-
+                Math.max(80, Math.random() * maxY) + "px";
 
             popup.innerHTML = `
-
                 <h2>${title}</h2>
-
                 <p>${message}</p>
-
-                <button>
-                    OK
-                </button>
-
+                <button>OK</button>
             `;
 
+            const closeButton = popup.querySelector("button");
 
-            const closeButton =
-                popup.querySelector(
-                    "button"
-                );
+            closeButton.addEventListener("click", function() {
+                popup.remove();
 
-
-            closeButton.addEventListener(
-                "click",
-                function() {
-
-
-                    popup.remove();
-
-
-                    /* SOMETIMES ANOTHER POPUP */
-
-                    if (
-                        Math.random() < 0.35 &&
-                        popupCount < 20
-                    ) {
-
-                        showPopup(
-                            "Question",
-                            "How are you?"
-                        );
-
-                    }
-
+                if (Math.random() < 0.35 && popupCount < 20) {
+                    showPopup("Question", "How are you?");
                 }
-            );
+            });
 
-
-            popupLayer.appendChild(
-                popup
-            );
-
+            popupLayer.appendChild(popup);
         }
-
-
-        /* =========================
-           RANDOM POPUPS
-        ========================= */
 
         function schedulePopup() {
+            const delay = Math.random() * 7000 + 5000;
 
+            setTimeout(function() {
+                if (popupLayer.children.length < 3) {
+                    const messages = [
+                        ["TIMER NOTICE", "Your time is going out."],
+                        ["Question", "How are you?"],
+                        [
+                            "SYSTEM MESSAGE",
+                            "The basketball has requested administrative privileges."
+                        ],
+                        ["WARNING", "Your Pressure is to HIGH"]
+                    ];
 
-            const delay =
-                Math.random() * 7000 + 5000;
+                    const chosen =
+                        messages[Math.floor(Math.random() * messages.length)];
 
+                    showPopup(chosen[0], chosen[1]);
+                }
 
-            setTimeout(
-                function() {
-
-
-                    if (
-                        popupLayer.children.length < 3
-                    ) {
-
-
-                        const messages = [
-
-                            [
-                                "TIMER NOTICE",
-                                "Your time is going out."
-                            ],
-
-                            [
-                                "Question",
-                                "How are you?"
-                            ],
-
-                            [
-                                "SYSTEM MESSAGE",
-                                "The basketball has requested administrative privileges."
-                            ],
-
-                            [
-                                "WARNING",
-                                "Your Pressure is to HIGH"
-                            ]
-
-                        ];
-
-
-                        const chosen =
-                            messages[
-                                Math.floor(
-                                    Math.random() *
-                                    messages.length
-                                )
-                            ];
-
-
-                        showPopup(
-                            chosen[0],
-                            chosen[1]
-                        );
-
-                    }
-
-
-                    schedulePopup();
-
-
-                },
-                delay
-            );
-
+                schedulePopup();
+            }, delay);
         }
 
-
         schedulePopup();
-
-
     </script>
 
 </body>
 
 </html>
-```
