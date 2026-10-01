@@ -2,17 +2,6 @@
 
 A functional basketball timer that became unnecessarily complicated.
 
-## Demo
-
-
-## What is this?
-
-The original task was simple:
-
-> Make a timer that is basketball inspired.
-
-It is still a functional timer.
-
 ## Features
 
 * Basketball psi pump mechanic thing
